@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>随机生成文字</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .random-text {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+    // 随机生成文字的数组（可以根据需要扩充）
+    const texts = [
+      "这是第一段文字。",
+      "这是第二段文字。",
+      "这是第三段文字。",
+      "这是第四段文字。",
+      // 添加更多文字...
+    ];
+
+    // 获取页面的宽度和高度
+    const screenWidth = 1900;
+    const screenHeight = 1080;
+
+    // 计算每个文字块的宽度和高度
+    const blockWidth = 150;
+    const blockHeight = 50;
+
+    // 计算每行和每列的文字块数
+    const blocksPerRow = Math.floor(screenWidth / blockWidth);
+    const blocksPerColumn = Math.floor(screenHeight / blockHeight);
+
+    // 计算总共需要生成的文字块数
+    const totalBlocks = blocksPerRow * blocksPerColumn;
+
+    // 获取页面的body元素
+    const body = document.body;
+
+    // 随机生成足够多的文字块并添加到页面中
+    for (let i = 0; i < totalBlocks; i++) {
+      const randomIndex = Math.floor(Math.random() * texts.length);
+      const randomText = texts[randomIndex];
+
+      // 创建一个div元素用于包装文字块
+      const textBlock = document.createElement('div');
+      textBlock.classList.add('random-text');
+      textBlock.textContent = randomText;
+
+      // 随机设置文字块的位置
+      textBlock.style.left = `${Math.random() * screenWidth}px`;
+      textBlock.style.top = `${Math.random() * screenHeight}px`;
+
+      // 将文字块添加到页面中
+      body.appendChild(textBlock);
+
+    }
+
+
+// Use html2canvas to capture the entire HTML content and generate a downloadable link
+html2canvas(document.documentElement).then(canvas => {
+            const imageDataURL = canvas.toDataURL('image/png');
+
+            // Create an anchor element to trigger the download
+            const downloadLink = document.createElement('a');
+            downloadLink.href = imageDataURL;
+            downloadLink.download = 'downloaded_page.png'; // You can customize the file name
+
+            // Append the anchor element to the body
+            document.body.appendChild(downloadLink);
+
+            // Trigger the click event on the anchor element to start the download
+            downloadLink.click();
+
+            // Remove the anchor element from the body
+            document.body.removeChild(downloadLink);
+        });
+
+
+    // 每隔5秒刷新页面
+    setInterval(function() {
+      location.reload();
+    }, 5000);
+
+   
+  </script>
+</body>
+</html>

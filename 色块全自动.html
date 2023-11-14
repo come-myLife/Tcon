@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Gray Divs</title>
+    <style>
+        body {
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(62, 40px); /* 2480 / 40 = 62 columns */
+            grid-auto-rows: 30px; /* 1860 / 30 = 62 rows */
+            gap: 0;
+        }
+
+        .gray-div {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<script src="https:html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script>
+    function getRandomGrayColor() {
+        var shades = ["#000", "#111", "#222", "#333", "#444", "#555", "#666", "#777", "#888", "#999", "#aaa", "#bbb", "#ccc", "#ddd", "#eee", "#fff"];
+        return shades[Math.floor(Math.random() * shades.length)];
+    }
+
+     function refreshColors() {
+         var divs = document.querySelectorAll('.gray-div');
+         divs.forEach(function(div) {
+             div.style.backgroundColor = getRandomGrayColor();
+         });
+         captureAndDownload();
+     }
+
+     function captureAndDownload() {
+         html2canvas(document.body).then(function(canvas) {
+             var link = document.createElement('a');
+             link.href = canvas.toDataURL();
+             link.download = 'page-screenshot.png';
+             link.click();
+         });
+     }
+
+     document.addEventListener("DOMContentLoaded", function () {
+         var container = document.body;
+
+         for (var i = 0; i < 2000; i++) {
+             var div = document.createElement("div");
+             div.className = "gray-div";
+             div.style.backgroundColor = getRandomGrayColor();
+             container.appendChild(div);
+         }
+
+         setInterval(refreshColors, 100);  刷新颜色间隔为2秒
+     });
+</script>
+
+</body>
+</html>
